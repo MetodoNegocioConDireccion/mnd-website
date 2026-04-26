@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Método Negocio con Dirección — Sistema de acompañamiento estratégico para emprendedores. Diagnóstico real, ruta personalizada, ejecución guiada.">
+<title>Método Negocio con Dirección — Palacios & Lourido</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--negro:#0D0D12;
+--negro2:#13131A;
+--negro3:#1A1A24;
+--negro4:#22222E;
+--plata:#BDBDBD;
+--plata-lt:#D8D8D8;
+--plata-dk:#888;
+--lila:#B388D6;
+--lila-lt:#CBA8E8;
+--lila-dk:#8A5BB5;
+--lila-ultra:#F3EAF9;
+--blanco:#F5F4F0;
+--border:rgba(189,189,189,.12);
+--border2:rgba(189,189,189,.22);
+}
+html{scroll-behavior:smooth}
+body{background:var(--negro);color:var(--blanco);font-family:'Montserrat',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* TYPOGRAPHY */
+.display{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.mono-caps{font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:11px}
+.eyebrow{font-family:'Montserrat',sans-serif;font-weight:300;letter-spacing:.35em;text-transform:uppercase;font-size:10px;color:var(--plata-dk)}
+
+/* LAYOUT */
+.container{max-width:1160px;margin:0 auto;padding:0 40px}
+section{padding:100px 0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 40px;display:flex;align-items:center;justify-content:space-between;transition:.4s;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(13,13,18,.92);backdrop-filter:blur(12px);border-color:var(--border)}
+.nav-logo{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+.nav-logo-top{font-family:'Montserrat',sans-serif;font-weight:300;font-size:10px;letter-spacing:.4em;color:var(--plata-dk);text-transform:uppercase}
+.nav-logo-mid{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--lila);line-height:1}
+.nav-logo-bot{font-family:'Montserrat',sans-serif;font-weight:700;font-size:9px;letter-spacing:.3em;color:var(--blanco);text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:36px}
+.nav-links a{color:var(--plata);text-decoration:none;font-size:12px;font-weight:400;letter-spacing:.06em;transition:.2s}
+.nav-links a:hover{color:var(--lila-lt)}
+.nav-cta{background:var(--lila);color:var(--negro);font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:12px 24px;border-radius:2px;text-decoration:none;transition:.2s}
+.nav-cta:hover{background:var(--lila-lt);color:var(--negro)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:100px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(189,189,189,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(189,189,189,.03) 1px,transparent 1px);background-size:80px 80px}
+.hero-glow{position:absolute;top:-200px;right:-100px;width:700px;height:700px;background:radial-gradient(circle,rgba(179,136,214,.07) 0%,transparent 65%);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-100px;left:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(179,136,214,.04) 0%,transparent 65%)}
+.hero-content{position:relative;z-index:1}
+.hero-eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:40px;opacity:0;animation:fadeUp .8s .2s forwards}
+.hero-eyebrow-line{width:40px;height:1px;background:var(--lila-dk)}
+.hero-tag{font-family:'Montserrat',sans-serif;font-weight:300;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--plata-dk)}
+.hero-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(36px,4vw,58px);line-height:1.0;margin-bottom:24px;opacity:0;animation:fadeUp .8s .35s forwards}
+.hero-title strong{font-style:normal;font-weight:700;font-family:'Montserrat',sans-serif;font-size:clamp(14px,1.8vw,22px);letter-spacing:.25em;text-transform:uppercase;color:var(--plata);display:block;margin-bottom:12px}
+.hero-title em{color:var(--lila)}
+.hero-subtitle{max-width:560px;font-size:14px;font-weight:300;color:var(--plata);line-height:1.8;margin-bottom:48px;opacity:0;animation:fadeUp .8s .5s forwards}
+.hero-actions{display:flex;align-items:center;gap:24px;opacity:0;animation:fadeUp .8s .65s forwards}
+.btn-primary{background:var(--lila);color:var(--negro);font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.15em;text-transform:uppercase;padding:18px 40px;border-radius:2px;text-decoration:none;transition:.25s;border:none;cursor:pointer;display:inline-block}
+.btn-primary:hover{background:var(--lila-lt);transform:translateY(-1px)}
+.btn-ghost{color:var(--plata);font-size:12px;font-weight:400;text-decoration:none;letter-spacing:.06em;display:flex;align-items:center;gap:8px;transition:.2s}
+.btn-ghost:hover{color:var(--lila-lt)}
+.btn-ghost-arrow{font-size:16px}
+.hero-stats{display:flex;gap:48px;margin-top:72px;padding-top:48px;border-top:1px solid var(--border);opacity:0;animation:fadeUp .8s .8s forwards}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;font-style:italic;color:var(--lila);line-height:1}
+.hero-stat-lbl{font-size:11px;font-weight:300;color:var(--plata-dk);letter-spacing:.08em;margin-top:4px;line-height:1.4}
+.hero-right{position:absolute;right:0;top:50%;transform:translateY(-50%);width:42%;display:flex;justify-content:center;align-items:center}
+.hero-card-float{background:var(--negro3);border:1px solid var(--border2);border-radius:4px;padding:32px;width:340px;animation:floatCard 4s ease-in-out infinite}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hc-label{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--plata-dk);margin-bottom:16px}
+.hc-nivel{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.hc-nivel-dot{width:10px;height:10px;border-radius:50%;background:var(--lila)}
+.hc-nivel-txt{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--blanco)}
+.hc-bar-wrap{margin-bottom:20px}
+.hc-bar-label{display:flex;justify-content:space-between;font-size:10px;color:var(--plata-dk);margin-bottom:6px}
+.hc-bar{height:3px;background:rgba(189,189,189,.1);border-radius:2px;overflow:hidden}
+.hc-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--lila-dk),var(--lila))}
+.hc-tasks{display:flex;flex-direction:column;gap:8px}
+.hc-task{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:300;color:var(--plata)}
+.hc-task-check{width:16px;height:16px;border-radius:3px;background:rgba(179,136,214,.15);border:1px solid var(--lila-dk);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--lila);flex-shrink:0}
+
+/* PROBLEM */
+.problem-section{background:var(--negro2)}
+.problem-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(22px,2.8vw,36px);font-weight:300;line-height:1.3;color:var(--blanco);max-width:800px;margin-bottom:60px}
+.problem-quote em{color:var(--lila)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.problem-item{background:var(--negro2);padding:40px;border:1px solid transparent}
+.problem-item-icon{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--lila-dk);margin-bottom:16px}
+.problem-item-title{font-size:18px;font-weight:500;margin-bottom:10px;line-height:1.3}
+.problem-item-desc{font-size:14px;font-weight:300;color:var(--plata);line-height:1.8}
+
+/* HOW IT WORKS */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:grid;grid-template-columns:80px 1fr;gap:40px;padding:40px 0;border-bottom:1px solid var(--border);align-items:start}
+.step:last-child{border-bottom:none}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;font-style:italic;color:rgba(179,136,214,.2);line-height:1}
+.step-content{}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:8px;color:var(--blanco)}
+.step-title em{font-style:italic;color:var(--lila)}
+.step-desc{font-size:14px;font-weight:300;color:var(--plata);line-height:1.8;max-width:580px}
+
+/* PILARES */
+.pilares-section{background:var(--negro3)}
+.pilares-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.pilar-card{background:var(--negro2);border:1px solid var(--border);border-radius:4px;padding:36px;transition:.3s;position:relative;overflow:hidden}
+.pilar-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--lila);transition:.4s}
+.pilar-card:hover::before{height:100%}
+.pilar-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.pilar-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;font-style:italic;color:rgba(179,136,214,.15);line-height:1;margin-bottom:16px}
+.pilar-title{font-size:17px;font-weight:700;margin-bottom:10px;color:var(--blanco);letter-spacing:.02em}
+.pilar-desc{font-size:13px;font-weight:300;color:var(--plata);line-height:1.8}
+
+/* NIVELES */
+.niveles-section{}
+.niveles-intro{max-width:600px;margin-bottom:64px}
+.niveles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.nivel-card{background:var(--negro);padding:36px 28px;position:relative;transition:.3s;cursor:default}
+.nivel-card:hover{background:var(--negro3)}
+.nivel-card-top{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.nivel-emoji{font-size:20px}
+.nivel-tag{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--lila-dk)}
+.nivel-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--blanco);margin-bottom:8px}
+.nivel-sub{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--plata-dk);margin-bottom:20px}
+.nivel-items{list-style:none;display:flex;flex-direction:column;gap:8px}
+.nivel-items li{font-size:12px;font-weight:300;color:var(--plata);padding-left:16px;position:relative;line-height:1.5}
+.nivel-items li::before{content:'—';position:absolute;left:0;color:var(--lila-dk);font-size:10px}
+
+/* VENTAJA */
+.ventaja-section{background:var(--negro2)}
+.ventaja-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ventaja-left{}
+.ventaja-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(26px,3vw,40px);font-weight:300;line-height:1.2;margin-bottom:32px}
+.ventaja-title em{color:var(--lila)}
+.ventaja-desc{font-size:15px;font-weight:300;color:var(--plata);line-height:1.9;margin-bottom:36px}
+.ventaja-right{display:flex;flex-direction:column;gap:16px}
+.ventaja-item{display:flex;align-items:flex-start;gap:16px;padding:24px;background:var(--negro3);border:1px solid var(--border);border-radius:4px}
+.ventaja-check{width:32px;height:32px;border-radius:50%;background:rgba(179,136,214,.1);border:1px solid var(--lila-dk);display:flex;align-items:center;justify-content:center;color:var(--lila);font-size:13px;flex-shrink:0;margin-top:2px}
+.ventaja-item-title{font-size:14px;font-weight:700;margin-bottom:4px;color:var(--blanco)}
+.ventaja-item-desc{font-size:12px;font-weight:300;color:var(--plata);line-height:1.7}
+
+/* MODELO */
+.modelo-section{background:var(--negro3)}
+.modelo-split{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.modelo-col-title{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--plata-dk);margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.modelo-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.modelo-item:last-child{border-bottom:none}
+.modelo-item-pct{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--lila-dk);min-width:36px}
+.modelo-item-txt{font-size:13px;font-weight:300;color:var(--plata)}
+
+/* PARA QUIEN */
+.paraquien-section{}
+.paraquien-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.pq-card{padding:40px;border-radius:4px}
+.pq-card-si{background:rgba(179,136,214,.06);border:1px solid rgba(179,136,214,.2)}
+.pq-card-no{background:rgba(189,189,189,.03);border:1px solid var(--border)}
+.pq-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;margin-bottom:24px}
+.pq-title-si{color:var(--lila)}
+.pq-title-no{color:var(--plata-dk)}
+.pq-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.pq-list li{font-size:14px;font-weight:300;color:var(--plata);padding-left:20px;position:relative;line-height:1.6}
+.pq-list-si li::before{content:'✓';position:absolute;left:0;color:var(--lila);font-size:12px;font-weight:700}
+.pq-list-no li::before{content:'✗';position:absolute;left:0;color:var(--plata-dk);font-size:12px}
+
+/* MALLA */
+.malla-section{background:var(--negro2)}
+.malla-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.malla-col{background:var(--negro2);padding:32px 24px}
+.malla-col-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;font-style:italic;color:rgba(179,136,214,.2);line-height:1;margin-bottom:12px}
+.malla-col-title{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--blanco);margin-bottom:4px}
+.malla-col-sub{font-size:11px;font-weight:300;color:var(--plata-dk);margin-bottom:20px;font-style:italic}
+.malla-items{list-style:none;display:flex;flex-direction:column;gap:8px}
+.malla-items li{font-size:12px;font-weight:300;color:var(--plata);padding-left:14px;position:relative}
+.malla-items li::before{content:'·';position:absolute;left:0;color:var(--lila)}
+.malla-diploma{margin-top:20px;padding:10px 14px;background:rgba(179,136,214,.08);border:1px solid rgba(179,136,214,.2);border-radius:2px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lila-dk)}
+
+/* SOBRE */
+.sobre-section{background:var(--negro3)}
+.sobre-content{max-width:720px;margin:0 auto;text-align:center}
+.sobre-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,32px);font-weight:300;font-style:italic;line-height:1.4;margin-bottom:32px;color:var(--blanco)}
+.sobre-quote em{color:var(--lila)}
+.sobre-desc{font-size:15px;font-weight:300;color:var(--plata);line-height:1.9}
+
+/* APP EMBED */
+.app-section{background:var(--negro)}
+.app-embed-wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.app-embed-text{}
+.app-embed-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(26px,3vw,40px);font-weight:300;line-height:1.2;margin-bottom:20px}
+.app-embed-title em{color:var(--lila)}
+.app-embed-desc{font-size:15px;font-weight:300;color:var(--plata);line-height:1.9;margin-bottom:32px}
+.app-frame{background:var(--negro3);border:1px solid var(--border2);border-radius:12px;overflow:hidden;height:600px;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.4)}
+.app-frame iframe{width:100%;height:100%;border:none;border-radius:12px}
+.app-frame-bar{height:40px;background:var(--negro4);display:flex;align-items:center;padding:0 16px;gap:8px;position:absolute;top:0;left:0;right:0;z-index:2}
+.app-frame-dot{width:10px;height:10px;border-radius:50%}
+
+/* CTA FINAL */
+.cta-section{background:linear-gradient(180deg,var(--negro2) 0%,var(--negro) 100%);text-align:center;padding:120px 0}
+.cta-eyebrow{margin-bottom:24px}
+.cta-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(32px,4vw,56px);font-weight:300;line-height:1.1;margin-bottom:24px;color:var(--blanco)}
+.cta-title em{color:var(--lila)}
+.cta-subtitle{font-size:16px;font-weight:300;color:var(--plata);margin-bottom:48px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.8}
+.cta-actions{display:flex;justify-content:center;align-items:center;gap:24px}
+
+/* FOOTER */
+footer{background:var(--negro);border-top:1px solid var(--border);padding:48px 40px;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{display:flex;flex-direction:column;gap:2px}
+.footer-copy{font-size:11px;font-weight:300;color:var(--plata-dk);letter-spacing:.04em}
+.footer-links{display:flex;gap:32px}
+.footer-links a{font-size:11px;font-weight:300;color:var(--plata-dk);text-decoration:none;letter-spacing:.06em;transition:.2s}
+.footer-links a:hover{color:var(--lila)}
+
+/* SECTION HEADER */
+.section-header{margin-bottom:64px}
+.section-header-inner{display:flex;align-items:flex-start;gap:40px}
+.section-line{width:1px;background:linear-gradient(180deg,var(--lila-dk),transparent);flex-shrink:0;align-self:stretch;margin-top:4px}
+.section-eyebrow{font-family:'Montserrat',sans-serif;font-weight:300;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--plata-dk);margin-bottom:12px}
+.section-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(28px,3vw,42px);font-weight:300;line-height:1.15;color:var(--blanco)}
+.section-title em{color:var(--lila)}
+.section-title strong{font-style:normal;font-family:'Montserrat',sans-serif;font-size:clamp(13px,1.5vw,17px);font-weight:700;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:8px;color:var(--plata)}
+
+/* DIVIDER */
+.divider-lila{width:48px;height:1px;background:var(--lila-dk);margin-bottom:16px}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:18px 24px}
+  .nav-links{display:none}
+  .container{padding:0 24px}
+  section{padding:72px 0}
+  .hero-right{display:none}
+  .problem-grid,.pilares-grid,.ventaja-split,.modelo-split,.paraquien-grid,.app-embed-wrap{grid-template-columns:1fr}
+  .niveles-grid,.malla-grid{grid-template-columns:1fr 1fr}
+  .hero-stats{gap:32px;flex-wrap:wrap}
+  footer{flex-direction:column;gap:24px;text-align:center;padding:40px 24px}
+  .footer-links{justify-content:center;flex-wrap:wrap;gap:20px}
+}
+@media(max-width:560px){
+  .niveles-grid,.malla-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+  .cta-actions{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <span class="nav-logo-top">Palacios &amp; Lourido</span>
+    <span class="nav-logo-mid">Método</span>
+    <span class="nav-logo-bot">Negocio con Dirección</span>
+  </div>
+  <div class="nav-links">
+    <a href="#metodo">El método</a>
+    <a href="#niveles">Niveles</a>
+    <a href="#malla">Programa</a>
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#diagnostico" class="nav-cta">Iniciar diagnóstico</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+  </div>
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 44%;gap:0;align-items:center">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <div class="hero-tag">Sistema de acompañamiento estratégico</div>
+        </div>
+        <h1 class="hero-title">
+          <strong>Palacios &amp; Lourido</strong>
+          Construye tu negocio<br>con <em>dirección</em>,<br>no con ensayo y error
+        </h1>
+        <p class="hero-subtitle">Un sistema que te dice exactamente en qué punto estás, qué debes hacer y te acompaña a resolver los bloqueos reales que hoy no te dejan avanzar.</p>
+        <div class="hero-actions">
+          <a href="#diagnostico" class="btn-primary">Hacer mi diagnóstico ahora</a>
+          <a href="#metodo" class="btn-ghost">Conocer el método <span class="btn-ghost-arrow">↓</span></a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">4</div>
+            <div class="hero-stat-lbl">Niveles de<br>acompañamiento</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">70%</div>
+            <div class="hero-stat-lbl">Ejecución dentro<br>de la plataforma</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">0</div>
+            <div class="hero-stat-lbl">Teoría sin<br>aplicación real</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-card-float">
+          <div class="hc-label">Tu diagnóstico actual</div>
+          <div class="hc-nivel">
+            <div class="hc-nivel-dot"></div>
+            <div class="hc-nivel-txt">Nivel 2 — Desordenado</div>
+          </div>
+          <div class="hc-bar-wrap">
+            <div class="hc-bar-label"><span>Progreso del ciclo</span><span style="color:var(--lila)">48%</span></div>
+            <div class="hc-bar"><div class="hc-bar-fill" style="width:48%"></div></div>
+          </div>
+          <div class="hc-tasks">
+            <div class="hc-task"><div class="hc-task-check">✓</div>Mapear proceso de ventas</div>
+            <div class="hc-task"><div class="hc-task-check">✓</div>Identificar cuello de botella</div>
+            <div class="hc-task"><div class="hc-task-check" style="background:none;color:transparent">·</div>Establecer métricas básicas</div>
+            <div class="hc-task"><div class="hc-task-check" style="background:none;color:transparent">·</div>Organizar finanzas básicas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="problem-section reveal" id="metodo">
+  <div class="container">
+    <p class="problem-quote reveal">No estás fallando.<br>Estás avanzando <em>sin estructura</em>.</p>
+    <div class="problem-grid reveal">
+      <div class="problem-item">
+        <div class="problem-item-icon">01 — El problema</div>
+        <div class="problem-item-title">La mayoría de emprendedores tiene un problema de dirección, no de capacidad</div>
+        <div class="problem-item-desc">Empiezan con ideas, consumen contenido, prueban estrategias… pero sin una estructura clara terminan confundidos, saturados y sin resultados consistentes. Y lo peor: sin entender qué está fallando realmente.</div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-item-icon">02 — La solución equivocada</div>
+        <div class="problem-item-title">Más cursos no resuelven el problema si no sabes en qué etapa estás</div>
+        <div class="problem-item-desc">No necesitas más información. Necesitas un sistema que te diga qué deberías estar haciendo realmente y qué está bloqueando tu negocio hoy. El avance no viene de aprender más. Viene de ejecutar mejor.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header-inner">
+        <div class="section-line" style="min-height:60px"></div>
+        <div>
+          <div class="section-eyebrow">Cómo funciona</div>
+          <div class="section-title"><em>El sistema</em> paso a paso</div>
+        </div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title"><em>Diagnóstico real</em></div>
+          <div class="step-desc">Identificamos el estado actual de tu negocio. No partimos de suposiciones — partimos de tu realidad específica. Esto define tu nivel y tu punto de partida claro.</div>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title"><em>Nivel asignado</em></div>
+          <div class="step-desc">Ubicamos tu punto de partida entre 4 niveles de madurez empresarial. No todos hacen lo mismo, porque no todos están en el mismo punto.</div>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title"><em>Ruta personalizada</em></div>
+          <div class="step-desc">Accedes a ciclos de trabajo estructurados según tu nivel. Cada ciclo tiene tareas concretas, no teoría genérica.</div>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title"><em>Ejecución guiada</em></div>
+          <div class="step-desc">Avanzas dentro de la plataforma paso a paso. Cada tarea requiere evidencia real. No avanzas por asistir — avanzas por construir.</div>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-title"><em>Acompañamiento estratégico</em></div>
+          <div class="step-desc">Resolvemos los bloqueos reales mientras ejecutas. El valor no está en explicar, está en desbloquear. Intervenimos exactamente donde el negocio se traba.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section class="pilares-section reveal">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header-inner">
+        <div class="section-line" style="min-height:60px"></div>
+        <div>
+          <div class="section-eyebrow">Lo que nos diferencia</div>
+          <div class="section-title"><em>Cuatro pilares</em> que lo hacen diferente</div>
+        </div>
+      </div>
+    </div>
+    <div class="pilares-grid">
+      <div class="pilar-card reveal">
+        <div class="pilar-num">I</div>
+        <div class="pilar-title">Diagnóstico real</div>
+        <div class="pilar-desc">No partimos de suposiciones. Identificamos el estado real del negocio para evitar soluciones genéricas y definir un punto de partida claro.</div>
+      </div>
+      <div class="pilar-card reveal">
+        <div class="pilar-num">II</div>
+        <div class="pilar-title">Ruta personalizada</div>
+        <div class="pilar-desc">Cada usuario recibe una ruta basada en su nivel. No todos hacen lo mismo, porque no todos están en el mismo punto. La personalización no es opcional — es el método.</div>
+      </div>
+      <div class="pilar-card reveal">
+        <div class="pilar-num">III</div>
+        <div class="pilar-title">Ejecución guiada</div>
+        <div class="pilar-desc">El usuario no solo aprende qué hacer, sino que lo ejecuta dentro de la plataforma mediante tareas estructuradas por ciclos con evidencia real.</div>
+      </div>
+      <div class="pilar-card reveal">
+        <div class="pilar-num">IV</div>
+        <div class="pilar-title">Acompañamiento en fricción real</div>
+        <div class="pilar-desc">El valor no está en explicar, está en desbloquear. Intervenimos exactamente en los puntos donde el negocio se traba. Esa es nuestra mayor fortaleza.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NIVELES -->
+<section class="reveal" id="niveles">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header-inner">
+        <div class="section-line" style="min-height:60px"></div>
+        <div>
+          <div class="section-eyebrow">Tu punto de partida</div>
+          <div class="section-title">Tu negocio no está atrasado.<br><em>Está en una etapa.</em></div>
+        </div>
+      </div>
+    </div>
+    <div class="niveles-grid">
+      <div class="nivel-card reveal">
+        <div class="nivel-card-top"><span class="nivel-emoji">💡</span><span class="nivel-tag">Nivel 0</span></div>
+        <div class="nivel-name">Idea</div>
+        <div class="nivel-sub">Tienes intención, no negocio</div>
+        <ul class="nivel-items">
+          <li>Validación de problema real</li>
+          <li>Identificación del cliente</li>
+          <li>Propuesta de valor</li>
+          <li>Constitución empresarial</li>
+          <li>Primer intento de venta</li>
+        </ul>
+      </div>
+      <div class="nivel-card reveal">
+        <div class="nivel-card-top"><span class="nivel-emoji">🧭</span><span class="nivel-tag">Nivel 1</span></div>
+        <div class="nivel-name">Desubicado</div>
+        <div class="nivel-sub">Iniciaste, sin dirección clara</div>
+        <ul class="nivel-items">
+          <li>Modelo de negocio</li>
+          <li>Claridad de oferta</li>
+          <li>Primeras ventas reales</li>
+          <li>Bases estructurales</li>
+        </ul>
+      </div>
+      <div class="nivel-card reveal">
+        <div class="nivel-card-top"><span class="nivel-emoji">🔧</span><span class="nivel-tag">Nivel 2</span></div>
+        <div class="nivel-name">Desordenado</div>
+        <div class="nivel-sub">Tienes negocio, sin sistema</div>
+        <ul class="nivel-items">
+          <li>Procesos documentados</li>
+          <li>Organización operativa</li>
+          <li>Flujo de clientes</li>
+          <li>Estabilidad y métricas</li>
+        </ul>
+      </div>
+      <div class="nivel-card reveal">
+        <div class="nivel-card-top"><span class="nivel-emoji">🚀</span><span class="nivel-tag">Nivel 3</span></div>
+        <div class="nivel-name">En marcha</div>
+        <div class="nivel-sub">Operas, pero no escalas</div>
+        <ul class="nivel-items">
+          <li>Optimización de procesos</li>
+          <li>Métricas de crecimiento</li>
+          <li>Escalamiento ordenado</li>
+          <li>Automatización</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MALLA CURRICULAR -->
+<section class="malla-section reveal" id="malla">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header-inner">
+        <div class="section-line" style="min-height:60px"></div>
+        <div>
+          <div class="section-eyebrow">Programa</div>
+          <div class="section-title"><em>Malla curricular</em> por niveles</div>
+        </div>
+      </div>
+    </div>
+    <div class="malla-grid">
+      <div class="malla-col">
+        <div class="malla-col-num">00</div>
+        <div class="malla-col-title">Creación y validación</div>
+        <div class="malla-col-sub">"Te ayudo a crear desde cero"</div>
+        <ul class="malla-items">
+          <li>Validación e investigación</li>
+          <li>Entrevistas con clientes</li>
+          <li>Propuesta de valor</li>
+          <li>Formalización empresarial</li>
+          <li>Primera venta real</li>
+        </ul>
+        <div class="malla-diploma">🏅 Empresa Constituida</div>
+      </div>
+      <div class="malla-col">
+        <div class="malla-col-num">01</div>
+        <div class="malla-col-title">Claridad estratégica</div>
+        <div class="malla-col-sub">"Te ayudo a dejar de estar perdido"</div>
+        <ul class="malla-items">
+          <li>Modelo de negocio formal</li>
+          <li>Oferta con precio claro</li>
+          <li>Perfil de cliente ideal</li>
+          <li>Canal de venta activo</li>
+          <li>Primeras ventas validadas</li>
+        </ul>
+        <div class="malla-diploma">🎖 Negocio Estructurado</div>
+      </div>
+      <div class="malla-col">
+        <div class="malla-col-num">02</div>
+        <div class="malla-col-title">Organización y procesos</div>
+        <div class="malla-col-sub">"Te ayudo a organizar tu negocio"</div>
+        <ul class="malla-items">
+          <li>Procesos documentados</li>
+          <li>Eliminación de cuellos</li>
+          <li>Métricas semanales</li>
+          <li>Control financiero</li>
+          <li>Flujo de clientes</li>
+        </ul>
+        <div class="malla-diploma">🥇 Negocio Organizado</div>
+      </div>
+      <div class="malla-col">
+        <div class="malla-col-num">03</div>
+        <div class="malla-col-title">Ejecución y escalamiento</div>
+        <div class="malla-col-sub">"Te acompaño a crecer"</div>
+        <ul class="malla-items">
+          <li>Automatización de procesos</li>
+          <li>Dashboard de métricas</li>
+          <li>Estrategia 90 días</li>
+          <li>Alianzas estratégicas</li>
+          <li>Escalamiento rentable</li>
+        </ul>
+        <div class="malla-diploma">🏆 Negocio en Escalamiento</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VENTAJA -->
+<section class="ventaja-section reveal">
+  <div class="container">
+    <div class="ventaja-split">
+      <div class="ventaja-left">
+        <div class="section-eyebrow" style="margin-bottom:16px">Ventaja competitiva</div>
+        <div class="ventaja-title">Por qué la mayoría de programas <em>fallan</em></div>
+        <div class="ventaja-desc">Enseñan contenido general, no consideran el nivel del usuario y no acompañan la ejecución real. Nosotros resolvemos exactamente eso.</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:13px;font-weight:300;color:var(--plata-dk);padding:12px 16px;border-left:1px solid var(--border)">❌ Contenido general para todos</div>
+          <div style="font-size:13px;font-weight:300;color:var(--plata-dk);padding:12px 16px;border-left:1px solid var(--border)">❌ Sin considerar el nivel del usuario</div>
+          <div style="font-size:13px;font-weight:300;color:var(--plata-dk);padding:12px 16px;border-left:1px solid var(--border)">❌ Sin acompañamiento en la ejecución real</div>
+        </div>
+      </div>
+      <div class="ventaja-right">
+        <div class="ventaja-item reveal">
+          <div class="ventaja-check">✓</div>
+          <div>
+            <div class="ventaja-item-title">Parte de un diagnóstico real</div>
+            <div class="ventaja-item-desc">No suposiciones. El punto de partida es el estado real de tu negocio hoy.</div>
+          </div>
+        </div>
+        <div class="ventaja-item reveal">
+          <div class="ventaja-check">✓</div>
+          <div>
+            <div class="ventaja-item-title">Adapta el camino según tu nivel</div>
+            <div class="ventaja-item-desc">Tu ruta es tuya. No hay dos emprendedores que reciban lo mismo.</div>
+          </div>
+        </div>
+        <div class="ventaja-item reveal">
+          <div class="ventaja-check">✓</div>
+          <div>
+            <div class="ventaja-item-title">Convierte aprendizaje en ejecución</div>
+            <div class="ventaja-item-desc">Cada módulo termina en una tarea real con evidencia. Sin ejecución, no hay avance.</div>
+          </div>
+        </div>
+        <div class="ventaja-item reveal">
+          <div class="ventaja-check">✓</div>
+          <div>
+            <div class="ventaja-item-title">Interviene en problemas reales</div>
+            <div class="ventaja-item-desc">No teóricos. Acompañamiento exactamente donde el negocio se bloquea.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODELO -->
+<section class="modelo-section reveal">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header-inner">
+        <div class="section-line" style="min-height:60px"></div>
+        <div>
+          <div class="section-eyebrow">Modelo de trabajo</div>
+          <div class="section-title">Híbrido: <em>70% plataforma,</em><br>30% acompañamiento</div>
+        </div>
+      </div>
+    </div>
+    <div class="modelo-split">
+      <div>
+        <div class="modelo-col-title">Dentro de la plataforma — 70%</div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Diagnóstico estratégico inicial</div></div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Ruta por niveles personalizada</div></div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Tareas estructuradas por ciclos</div></div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Seguimiento de progreso en tiempo real</div></div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Evidencias y diplomas por ejecución</div></div>
+      </div>
+      <div>
+        <div class="modelo-col-title">Acompañamiento personalizado — 30%</div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Mentoría personalizada por ciclo</div></div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Resolución de bloqueos reales</div></div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Soporte estructurado (no 24/7)</div></div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Diagnóstico PDF estratégico</div></div>
+        <div class="modelo-item"><div class="modelo-item-pct">→</div><div class="modelo-item-txt">Ajustes en tiempo real</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUIEN -->
+<section class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header-inner">
+        <div class="section-line" style="min-height:60px"></div>
+        <div>
+          <div class="section-eyebrow">Filtro</div>
+          <div class="section-title">¿<em>Para quién</em> es este método?</div>
+        </div>
+      </div>
+    </div>
+    <div class="paraquien-grid">
+      <div class="pq-card pq-card-si reveal">
+        <div class="pq-title pq-title-si">Es para ti si…</div>
+        <ul class="pq-list pq-list-si">
+          <li>Estás cansado de intentar sin resultados claros</li>
+          <li>Quieres estructura, no improvisación</li>
+          <li>Estás dispuesto a ejecutar, no solo a aprender</li>
+          <li>Ya intentaste avanzar sin estructura y no funcionó</li>
+          <li>Sientes que haces mucho pero no ves resultados proporcionales</li>
+          <li>Quieres acompañamiento real, no solo contenido</li>
+        </ul>
+      </div>
+      <div class="pq-card pq-card-no reveal">
+        <div class="pq-title pq-title-no">No es para ti si…</div>
+        <ul class="pq-list pq-list-no">
+          <li>Solo buscas información sin compromiso de aplicarla</li>
+          <li>Esperas resultados sin involucrarte activamente</li>
+          <li>No estás dispuesto a cuestionar tu forma actual de operar</li>
+          <li>Buscas un curso genérico con contenido estándar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="sobre-section reveal">
+  <div class="container">
+    <div class="sobre-content">
+      <div class="section-eyebrow" style="margin-bottom:20px;text-align:center">Lo que puedes esperar</div>
+      <div class="sobre-quote">No prometemos <em>éxito</em>.<br>Prometemos claridad, estructura<br>y avance medible.</div>
+      <div class="sobre-desc">Claridad en tu negocio · Dirección en tus decisiones · Organización y estructura · Avance medible · Menos bloqueo, más ejecución</div>
+    </div>
+  </div>
+</section>
+
+<!-- APP EMBED -->
+<section class="app-section reveal" id="diagnostico">
+  <div class="container">
+    <div class="app-embed-wrap">
+      <div class="app-embed-text">
+        <div class="section-eyebrow" style="margin-bottom:16px">Empieza ahora</div>
+        <div class="app-embed-title">Haz tu <em>diagnóstico</em><br>sin salir de aquí</div>
+        <div class="app-embed-desc">Antes de avanzar, necesitas claridad. Responde el diagnóstico y descubre el estado real de tu negocio, tu nivel y tu ruta de acción personalizada. Tarda menos de 5 minutos.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px">
+          <div style="display:flex;align-items:center;gap:12px;font-size:13px;font-weight:300;color:var(--plata)">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--lila);flex-shrink:0"></div>
+            8 preguntas sobre tu negocio real
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:13px;font-weight:300;color:var(--plata)">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--lila);flex-shrink:0"></div>
+            Resultado inmediato con tu nivel y puntuación
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:13px;font-weight:300;color:var(--plata)">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--lila);flex-shrink:0"></div>
+            Diagnóstico profundo específico para tu etapa
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:13px;font-weight:300;color:var(--plata)">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--lila);flex-shrink:0"></div>
+            Ruta de ciclos activada para empezar de inmediato
+          </div>
+        </div>
+        <a href="https://metodonegociocondireccion.netlify.app" target="_blank" class="btn-primary">Abrir en pantalla completa ↗</a>
+      </div>
+      <div>
+        <div class="app-frame">
+          <div class="app-frame-bar">
+            <div class="app-frame-dot" style="background:#FF5F57"></div>
+            <div class="app-frame-dot" style="background:#FFBD2E"></div>
+            <div class="app-frame-dot" style="background:#28CA42"></div>
+            <div style="flex:1;text-align:center;font-size:10px;font-weight:300;color:var(--plata-dk);letter-spacing:.06em">metodonegociocondireccion.netlify.app</div>
+          </div>
+          <iframe src="https://metodonegociocondireccion.netlify.app" style="margin-top:40px;height:calc(100% - 40px);width:100%;border:none" loading="lazy" title="Diagnóstico Método Negocio con Dirección"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="reveal" style="background:var(--negro2)">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
+      <div>
+        <div class="section-eyebrow" style="margin-bottom:16px">Sobre nosotros</div>
+        <div class="section-title" style="margin-bottom:24px"><em>Palacios &amp; Lourido</em></div>
+        <div style="font-size:15px;font-weight:300;color:var(--plata);line-height:1.9">Somos un equipo enfocado en estructurar negocios desde la ejecución real. Nuestro enfoque no es enseñar teoría, sino ayudarte a construir un negocio funcional, sostenible y con dirección.</div>
+        <div style="margin-top:24px;padding:20px 24px;border-left:2px solid var(--lila);background:rgba(179,136,214,.05)">
+          <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--lila-lt);line-height:1.5">"Aprendes mientras ejecutas, con acompañamiento en los problemas reales que te están frenando."</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="padding:24px;background:var(--negro3);border:1px solid var(--border);border-radius:4px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--lila-dk);margin-bottom:8px">Misión</div>
+          <div style="font-size:14px;font-weight:300;color:var(--plata);line-height:1.7">Ayudar a emprendedores a construir y hacer crecer su negocio con dirección, estructura y claridad, evitando el desgaste de avanzar sin un sistema.</div>
+        </div>
+        <div style="padding:24px;background:var(--negro3);border:1px solid var(--border);border-radius:4px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--lila-dk);margin-bottom:8px">Visión</div>
+          <div style="font-size:14px;font-weight:300;color:var(--plata);line-height:1.7">Convertirnos en un método de referencia en acompañamiento empresarial práctico en habla hispana, donde la ejecución guiada reemplace la formación genérica.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section reveal">
+  <div class="container">
+    <div class="cta-eyebrow eyebrow">El primer paso es la claridad</div>
+    <div class="cta-title">Empieza por entender<br><em>dónde estás</em></div>
+    <div class="cta-subtitle">Antes de avanzar, necesitas claridad. Haz tu diagnóstico y descubre el estado real de tu negocio.</div>
+    <div class="cta-actions">
+      <a href="#diagnostico" class="btn-primary">Hacer diagnóstico ahora</a>
+      <a href="https://wa.me/573113053231?text=Hola%2C+vengo+de+la+p%C3%A1gina+web+de+M%C3%A9todo+Negocio+con+Direcci%C3%B3n.+Quiero+conocer+m%C3%A1s+sobre+el+programa+y+c%C3%B3mo+empezar." target="_blank" class="btn-ghost">Escribir a asesora por WhatsApp <span class="btn-ghost-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <span style="font-family:'Montserrat',sans-serif;font-weight:300;font-size:9px;letter-spacing:.35em;color:var(--plata-dk);text-transform:uppercase">Palacios &amp; Lourido</span>
+    <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--lila)">Método</span>
+    <span style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:8px;letter-spacing:.25em;color:var(--blanco);text-transform:uppercase">Negocio con Dirección</span>
+  </div>
+  <div class="footer-links">
+    <a href="#metodo">El método</a>
+    <a href="#niveles">Niveles</a>
+    <a href="#malla">Programa</a>
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="https://wa.me/573113053231?text=Hola%2C+vengo+de+la+p%C3%A1gina+web+de+M%C3%A9todo+Negocio+con+Direcci%C3%B3n.+Quisiera+m%C3%A1s+informaci%C3%B3n." target="_blank">WhatsApp</a>
+  </div>
+  <div class="footer-copy">© 2025 Palacios &amp; Lourido · contacto.palacioslourido@gmail.com</div>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      // stagger children
+      e.target.querySelectorAll('.reveal').forEach((child,i)=>{
+        setTimeout(()=>child.classList.add('visible'), i * 120);
+      });
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+</body>
+</html>
