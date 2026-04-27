@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Método Negocio con Dirección</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0E0C14;--bg2:#151220;--bg3:#1C1828;--card:#201C2E;
+--lila:#B388D6;--plata:#BDBDBD;--text:#EDE9F5;--text2:#8A879E;
+--border:rgba(179,136,214,.1);--border2:rgba(179,136,214,.2);
+--green:#4CAF80;--red:#E05555;--amber:#D4A847;
+--r:14px;--r2:10px;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:40px 36px;width:100%;max-width:380px;text-align:center}
+.login-logo-top{font-family:'DM Sans',sans-serif;font-weight:300;font-size:10px;letter-spacing:.4em;color:var(--text2);text-transform:uppercase;margin-bottom:4px}
+.login-logo-mid{font-family:'Georgia',serif;font-style:italic;font-size:32px;color:var(--lila);line-height:1;margin-bottom:4px}
+.login-logo-bot{font-family:'Syne',sans-serif;font-weight:700;font-size:9px;letter-spacing:.25em;color:var(--text);text-transform:uppercase;margin-bottom:32px}
+.login-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:6px}
+.login-sub{font-size:13px;color:var(--text2);margin-bottom:24px}
+.inp{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;width:100%;outline:none;margin-bottom:12px;transition:.2s}
+.inp:focus{border-color:var(--lila)}
+.inp::placeholder{color:var(--text2)}
+.btn-login{background:var(--lila);color:#0E0C14;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;padding:14px;border:none;border-radius:var(--r2);width:100%;cursor:pointer;transition:.2s;letter-spacing:.04em}
+.btn-login:hover{background:#C9A5E8}
+.login-error{font-size:12px;color:var(--red);margin-top:8px;display:none}
+
+/* DASHBOARD */
+.dashboard{display:none}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.logo-wrap{display:flex;flex-direction:column}
+.logo-mid{font-family:'Georgia',serif;font-style:italic;font-size:20px;color:var(--lila);line-height:1}
+.logo-bot{font-family:'Syne',sans-serif;font-weight:700;font-size:8px;letter-spacing:.2em;color:var(--text2);text-transform:uppercase}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.btn-sm{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:8px 16px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif}
+.btn-sm:hover{border-color:var(--lila);color:var(--lila)}
+.btn-accent{background:var(--lila);color:#0E0C14;border-color:var(--lila)}
+.btn-accent:hover{background:#C9A5E8;color:#0E0C14}
+
+.main{padding:28px;max-width:1400px;margin:0 auto}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.stat-num{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--lila);line-height:1;margin-bottom:6px}
+.stat-lbl{font-size:12px;color:var(--text2)}
+.stat-sub{font-size:11px;color:var(--text2);margin-top:4px;opacity:.7}
+
+/* FILTERS */
+.filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.filter-btn{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:7px 16px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif}
+.filter-btn:hover,.filter-btn.on{background:var(--lila);color:#0E0C14;border-color:var(--lila)}
+.search-inp{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:7px 16px;font-size:12px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;min-width:200px;transition:.2s;margin-left:auto}
+.search-inp:focus{border-color:var(--lila)}
+.search-inp::placeholder{color:var(--text2)}
+
+/* TABLE */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px}
+.table-head{display:grid;grid-template-columns:2fr 2fr 1fr 1fr 1fr 1fr 1fr;padding:14px 20px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.08em;text-transform:uppercase}
+.table-row{display:grid;grid-template-columns:2fr 2fr 1fr 1fr 1fr 1fr 1fr;padding:14px 20px;border-bottom:1px solid rgba(179,136,214,.06);align-items:center;cursor:pointer;transition:.2s}
+.table-row:last-child{border-bottom:none}
+.table-row:hover{background:rgba(179,136,214,.04)}
+.user-name{font-size:14px;font-weight:500}
+.user-biz{font-size:12px;color:var(--text2);margin-top:2px}
+.nivel-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.n0{background:rgba(179,136,214,.15);color:#D4AAEE}
+.n1{background:rgba(224,85,85,.12);color:#F0A0A0}
+.n2{background:rgba(212,168,71,.12);color:#F0CB80}
+.n3{background:rgba(76,175,128,.12);color:#80DBA8}
+.score-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-top:4px}
+.score-fill{height:100%;background:var(--lila);border-radius:2px}
+.ev-count{font-size:13px;font-weight:600;color:var(--text)}
+.date-txt{font-size:11px;color:var(--text2)}
+.btn-ver{background:rgba(179,136,214,.1);border:1px solid var(--border2);border-radius:8px;padding:5px 12px;font-size:11px;color:var(--lila);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:.2s}
+.btn-ver:hover{background:var(--lila);color:#0E0C14}
+
+/* DETALLE */
+.detalle-panel{display:none;position:fixed;top:0;right:0;bottom:0;width:480px;background:var(--bg2);border-left:1px solid var(--border2);z-index:50;overflow-y:auto;box-shadow:-8px 0 32px rgba(0,0,0,.4)}
+.detalle-panel.open{display:block}
+.detalle-top{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2)}
+.detalle-body{padding:24px}
+.det-section{margin-bottom:24px}
+.det-section-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.det-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(179,136,214,.05);font-size:13px}
+.det-row:last-child{border-bottom:none}
+.det-label{color:var(--text2)}
+.det-val{font-weight:500;text-align:right;max-width:60%}
+.ev-item{background:var(--bg3);border-radius:var(--r2);padding:12px 14px;margin-bottom:8px}
+.ev-item-title{font-size:12px;font-weight:600;margin-bottom:4px}
+.ev-item-nota{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:6px}
+.ev-link{display:inline-flex;align-items:center;gap:5px;background:rgba(179,136,214,.1);border:1px solid var(--border2);border-radius:8px;padding:5px 12px;font-size:11px;color:var(--lila);text-decoration:none;font-weight:600;transition:.2s}
+.ev-link:hover{background:var(--lila);color:#0E0C14}
+.nota-textarea{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;width:100%;outline:none;resize:none;min-height:80px;margin-bottom:10px;transition:.2s}
+.nota-textarea:focus{border-color:var(--lila)}
+.btn-guardar{background:var(--lila);color:#0E0C14;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:12px;border:none;border-radius:var(--r2);width:100%;cursor:pointer;transition:.2s}
+.btn-guardar:hover{background:#C9A5E8}
+.wa-btn{background:#25D366;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:12px;border:none;border-radius:var(--r2);width:100%;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;text-decoration:none}
+.wa-btn:hover{background:#1DA851}
+.empty{text-align:center;padding:60px 20px;color:var(--text2);font-size:14px}
+.loading{text-align:center;padding:40px;color:var(--text2);font-size:13px}
+.tag-ciclo{display:inline-block;background:rgba(179,136,214,.1);border-radius:6px;padding:3px 8px;font-size:10px;color:var(--lila);margin-right:4px;margin-bottom:4px}
+
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .table-head,.table-row{grid-template-columns:2fr 1fr 1fr 1fr}
+  .table-head .th-biz,.table-row .td-biz,
+  .table-head .th-ev,.table-row .td-ev,
+  .table-head .th-fecha,.table-row .td-fecha{display:none}
+  .detalle-panel{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo-top">Palacios &amp; Lourido</div>
+    <div class="login-logo-mid">Método</div>
+    <div class="login-logo-bot">Negocio con Dirección</div>
+    <div class="login-title">Panel de administración</div>
+    <div class="login-sub">Acceso exclusivo para asesoras</div>
+    <input class="inp" type="password" id="pass-inp" placeholder="Contraseña" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn-login" onclick="login()">Ingresar al panel</button>
+    <div class="login-error" id="login-error">Contraseña incorrecta</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="logo-wrap">
+      <div class="logo-mid">Método</div>
+      <div class="logo-bot">Panel de Administración</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-sm" onclick="cargarUsuarios()">↻ Actualizar</button>
+      <button class="btn-sm" onclick="exportarCSV()">↓ Exportar CSV</button>
+      <button class="btn-sm" onclick="cerrarSesion()">Salir</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="st-total">—</div>
+        <div class="stat-lbl">Usuarios totales</div>
+        <div class="stat-sub" id="st-hoy">— hoy</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="st-score-avg">—</div>
+        <div class="stat-lbl">Puntuación promedio</div>
+        <div class="stat-sub">/ 100 puntos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="st-tareas">—</div>
+        <div class="stat-lbl">Tareas completadas</div>
+        <div class="stat-sub">en total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="st-diplomas-tot">—</div>
+        <div class="stat-lbl">Diplomas entregados</div>
+        <div class="stat-sub">en total</div>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <button class="filter-btn on" onclick="filtrar('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="filtrar('0',this)">💡 Nivel 0</button>
+      <button class="filter-btn" onclick="filtrar('1',this)">🧭 Nivel 1</button>
+      <button class="filter-btn" onclick="filtrar('2',this)">🔧 Nivel 2</button>
+      <button class="filter-btn" onclick="filtrar('3',this)">🚀 Nivel 3</button>
+      <input class="search-inp" id="search-inp" placeholder="Buscar por nombre o negocio..." oninput="buscar(this.value)">
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <div class="table-head">
+        <div>Usuario</div>
+        <div class="th-biz">Negocio</div>
+        <div>Nivel</div>
+        <div>Score</div>
+        <div class="th-ev">Evidencias</div>
+        <div class="th-fecha">Fecha</div>
+        <div></div>
+      </div>
+      <div id="table-body">
+        <div class="loading">Cargando usuarios...</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DETALLE PANEL -->
+<div class="detalle-panel" id="detalle">
+  <div class="detalle-top">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800" id="det-nombre">—</div>
+      <div style="font-size:12px;color:var(--text2)" id="det-negocio">—</div>
+    </div>
+    <button onclick="cerrarDetalle()" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
+  </div>
+  <div class="detalle-body" id="det-body"></div>
+</div>
+
+<script>
+const PASS = 'MND2024admin';
+const NIVELES = ['💡 Nivel 0 — Idea','🧭 Nivel 1 — Desubicado','🔧 Nivel 2 — Desordenado','🚀 Nivel 3 — En marcha'];
+const NV_CLASS = ['n0','n1','n2','n3'];
+const NV_COLOR = ['#B388D6','#E05555','#D4A847','#4CAF80'];
+
+firebase.initializeApp({
+  apiKey:"AIzaSyCmBm0dDyKKzq-a5X4iMA489biXqUu4YGU",
+  authDomain:"metodo-negocio-con-direccion.firebaseapp.com",
+  projectId:"metodo-negocio-con-direccion"
+});
+const db = firebase.firestore();
+
+let todos = [], filtrados = [], usuarioActual = null;
+
+function login(){
+  const v = document.getElementById('pass-inp').value;
+  if(v === PASS){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    cargarUsuarios();
+  } else {
+    document.getElementById('login-error').style.display='block';
+    setTimeout(()=>document.getElementById('login-error').style.display='none',2000);
+  }
+}
+
+function cerrarSesion(){
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('pass-inp').value='';
+}
+
+async function cargarUsuarios(){
+  document.getElementById('table-body').innerHTML='<div class="loading">Cargando...</div>';
+  try{
+    const snap = await db.collection('usuarios').orderBy('fecha','desc').limit(500).get();
+    todos = [];
+    snap.forEach(doc => todos.push({id:doc.id,...doc.data()}));
+    filtrados = [...todos];
+    renderStats();
+    renderTabla(filtrados);
+  }catch(e){
+    document.getElementById('table-body').innerHTML='<div class="empty">Error al cargar datos: '+e.message+'</div>';
+  }
+}
+
+function renderStats(){
+  const hoy = new Date().toLocaleDateString('es-CO');
+  const hoyCount = todos.filter(u=>{
+    if(!u.fechaStr)return false;
+    const d = new Date(u.fecha?.toDate?.()|| u.fechaStr);
+    return d.toLocaleDateString('es-CO')===hoy;
+  }).length;
+  document.getElementById('st-total').textContent = todos.length;
+  document.getElementById('st-hoy').textContent = hoyCount+' hoy';
+  const avgScore = todos.length>0?Math.round(todos.reduce((a,u)=>a+(u.score1||0),0)/todos.length):0;
+  document.getElementById('st-score-avg').textContent = avgScore;
+  document.getElementById('st-tareas').textContent = todos.reduce((a,u)=>a+(u.tareasCompletadas||0),0);
+  document.getElementById('st-diplomas-tot').textContent = todos.reduce((a,u)=>a+(u.diplomasObtenidos||0),0);
+}
+
+function renderTabla(lista){
+  const el = document.getElementById('table-body');
+  if(lista.length===0){
+    el.innerHTML='<div class="empty">No hay usuarios en este filtro</div>';
+    return;
+  }
+  el.innerHTML = lista.map(u=>{
+    const n = u.nivel||0;
+    const evCount = u.evidencias?Object.keys(u.evidencias).length:0;
+    const fecha = u.fechaStr?u.fechaStr.split(',')[0]:'—';
+    const pct = u.score1||0;
+    return `<div class="table-row" onclick="verDetalle('${u.id}')">
+      <div>
+        <div class="user-name">${u.nombre||'Sin nombre'}</div>
+      </div>
+      <div class="td-biz">
+        <div class="user-biz">${u.negocio||'—'}</div>
+      </div>
+      <div><span class="nivel-tag ${NV_CLASS[n]}">${NIVELES[n]?.split('—')[0].trim()||'N'+n}</span></div>
+      <div>
+        <div style="font-size:13px;font-weight:600">${pct}/100</div>
+        <div class="score-bar"><div class="score-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="td-ev"><span class="ev-count">${evCount}</span></div>
+      <div class="td-fecha"><span class="date-txt">${fecha}</span></div>
+      <div><button class="btn-ver" onclick="event.stopPropagation();verDetalle('${u.id}')">Ver →</button></div>
+    </div>`;
+  }).join('');
+}
+
+function filtrar(f, btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  filtrados = f==='todos'?[...todos]:todos.filter(u=>String(u.nivel)===f);
+  const q = document.getElementById('search-inp').value;
+  if(q) filtrados = filtrados.filter(u=>(u.nombre||'').toLowerCase().includes(q.toLowerCase())||(u.negocio||'').toLowerCase().includes(q.toLowerCase()));
+  renderTabla(filtrados);
+}
+
+function buscar(q){
+  const base = filtrados.length?filtrados:[...todos];
+  if(!q){renderTabla(base);return;}
+  renderTabla(todos.filter(u=>(u.nombre||'').toLowerCase().includes(q.toLowerCase())||(u.negocio||'').toLowerCase().includes(q.toLowerCase())));
+}
+
+function verDetalle(id){
+  const u = todos.find(x=>x.id===id);
+  if(!u)return;
+  usuarioActual = u;
+  document.getElementById('det-nombre').textContent = u.nombre||'—';
+  document.getElementById('det-negocio').textContent = u.negocio||'—';
+  const n = u.nivel||0;
+  const evs = u.evidencias||{};
+  const evList = Object.entries(evs).map(([k,ev])=>`
+    <div class="ev-item">
+      <div class="ev-item-title">Tarea: ${k}</div>
+      <div class="ev-item-nota">${ev.nota||''}</div>
+      ${ev.url?`<a href="${ev.url}" target="_blank" class="ev-link">📎 Ver archivo adjunto</a>`:''}
+      ${ev.file&&!ev.url?`<span style="font-size:11px;color:var(--text2)">📎 ${ev.file}</span>`:''}
+    </div>`).join('');
+
+  document.getElementById('det-body').innerHTML = `
+    <div class="det-section">
+      <div class="det-section-title">Diagnóstico</div>
+      <div class="det-row"><span class="det-label">Nivel</span><span class="det-val"><span class="nivel-tag ${NV_CLASS[n]}">${NIVELES[n]||'—'}</span></span></div>
+      <div class="det-row"><span class="det-label">Puntuación inicial</span><span class="det-val">${u.score1||0}/100</span></div>
+      <div class="det-row"><span class="det-label">Diagnóstico profundo</span><span class="det-val">${u.score2||0}/100</span></div>
+      <div class="det-row"><span class="det-label">Nivel inicial elegido</span><span class="det-val">${NIVELES[u.nivelInicial]||'—'}</span></div>
+    </div>
+    <div class="det-section">
+      <div class="det-section-title">Progreso</div>
+      <div class="det-row"><span class="det-label">Tareas completadas</span><span class="det-val">${u.tareasCompletadas||0}</span></div>
+      <div class="det-row"><span class="det-label">Diplomas obtenidos</span><span class="det-val">${u.diplomasObtenidos||0}</span></div>
+      <div class="det-row"><span class="det-label">Evidencias subidas</span><span class="det-val">${Object.keys(evs).length}</span></div>
+    </div>
+    <div class="det-section">
+      <div class="det-section-title">Registro</div>
+      <div class="det-row"><span class="det-label">Fecha de ingreso</span><span class="det-val">${u.fechaStr||'—'}</span></div>
+      <div class="det-row"><span class="det-label">Último evento</span><span class="det-val">${u.ultimoEvento||u.evento||'—'}</span></div>
+      <div class="det-row"><span class="det-label">Última actividad</span><span class="det-val">${u.ultimaActividadStr||'—'}</span></div>
+    </div>
+    ${evList?`<div class="det-section">
+      <div class="det-section-title">Evidencias subidas (${Object.keys(evs).length})</div>
+      ${evList}
+    </div>`:''}
+    <div class="det-section">
+      <div class="det-section-title">Notas de mentoría</div>
+      <div id="notas-guardadas" style="margin-bottom:10px;font-size:13px;color:var(--text2);font-style:italic">${u.notasMentoria||'Sin notas todavía'}</div>
+      <textarea class="nota-textarea" id="nota-nueva" placeholder="Escribe tus notas de mentoría aquí..."></textarea>
+      <button class="btn-guardar" onclick="guardarNota('${id}')">Guardar nota de mentoría</button>
+    </div>
+    <div class="det-section">
+      <div class="det-section-title">Contacto</div>
+      <a href="https://wa.me/573113053231?text=${encodeURIComponent('Hola '+u.nombre+'! Soy Angela de Método Negocio con Dirección. Revisé tu perfil y quería hacer seguimiento de tu avance en '+u.negocio+'. ¿Cómo vas?')}" target="_blank" class="wa-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Contactar por WhatsApp
+      </a>
+    </div>`;
+  document.getElementById('detalle').classList.add('open');
+}
+
+async function guardarNota(id){
+  const nota = document.getElementById('nota-nueva').value.trim();
+  if(!nota)return;
+  try{
+    const existing = todos.find(u=>u.id===id)?.notasMentoria||'';
+    const nueva = existing?(existing+'\n\n['+new Date().toLocaleString('es-CO')+'] '+nota):'['+new Date().toLocaleString('es-CO')+'] '+nota;
+    await db.collection('usuarios').doc(id).update({notasMentoria:nueva});
+    document.getElementById('notas-guardadas').textContent = nueva;
+    document.getElementById('nota-nueva').value='';
+    const u = todos.find(x=>x.id===id);
+    if(u)u.notasMentoria=nueva;
+    alert('Nota guardada correctamente ✓');
+  }catch(e){alert('Error al guardar: '+e.message);}
+}
+
+function cerrarDetalle(){
+  document.getElementById('detalle').classList.remove('open');
+  usuarioActual=null;
+}
+
+function exportarCSV(){
+  const headers = ['Nombre','Negocio','Nivel','Score','Tareas','Diplomas','Evidencias','Fecha'];
+  const rows = todos.map(u=>[
+    u.nombre||'',u.negocio||'',u.nivelLabel||'',u.score1||0,
+    u.tareasCompletadas||0,u.diplomasObtenidos||0,
+    Object.keys(u.evidencias||{}).length,u.fechaStr||''
+  ]);
+  const csv = [headers,...rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob = new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'usuarios-mnd-'+new Date().toLocaleDateString('es-CO').replace(/\//g,'-')+'.csv';
+  a.click();
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarDetalle();});
+</script>
+</body>
+</html>
